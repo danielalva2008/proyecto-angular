@@ -1,0 +1,52 @@
+<!-- Chatbot Toggle Button -->
+<button class="chatbot-toggle" (click)="toggleChatbot()">💬</button>
+
+<!-- Chatbot Modal -->
+<div class="chatbot-modal" [class.active]="isOpen">
+    <div class="chatbot-header">
+        <div class="chatbot-header-left">
+            <div class="chatbot-logo">AZ</div>
+            <div class="chatbot-title">
+                <h3>Azure Course Assistant</h3>
+                <p>MIT Sloan • Online</p>
+            </div>
+        </div>
+        <button class="chatbot-close" (click)="toggleChatbot()">×</button>
+    </div>
+
+    <div class="chatbot-messages">
+        @for (message of messages; track message.time) {
+            <div class="chat-message" [class.bot-message]="message.type === 'bot'" [class.user-message]="message.type === 'user'" [innerHTML]="message.text">
+            </div>
+            <span class="message-time">{{ message.time }}</span>
+        }
+        
+        @if (isTyping) {
+            <div class="typing-indicator">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        }
+
+        @if (messages.length === 1) {
+            <div class="quick-replies">
+                @for (reply of quickReplies; track reply.text) {
+                    <button class="quick-reply-btn" (click)="quickReply(reply.text)">{{ reply.label }}</button>
+                }
+            </div>
+        }
+    </div>
+
+    <div class="chatbot-input-container">
+        <input 
+            type="text" 
+            class="chatbot-input" 
+            [(ngModel)]="userInput" 
+            placeholder="Escribe tu pregunta..." 
+            autocomplete="off"
+            (keypress)="onKeyPress($event)"
+        >
+        <button class="send-button" (click)="sendMessage()">➤</button>
+    </div>
+</div>

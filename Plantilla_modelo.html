@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MIT Sloan - Azure Course</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            background: #ffffff;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* MIT Sloan Website Clone */
+        .mit-header {
+            background: #041d40;
+            color: white;
+            padding: 15px 0;
+            border-bottom: 3px solid #a31f34;
+        }
+
+        .mit-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .mit-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .mit-logo {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .mit-logo span {
+            color: #a31f34;
+        }
+
+        .mit-menu {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .mit-menu a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .mit-menu a:hover {
+            color: #a31f34;
+        }
+
+        .mit-hero {
+            background: linear-gradient(135deg, #041d40 0%, #00698e 100%);
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .mit-hero h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+
+        .mit-hero p {
+            font-size: 20px;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            opacity: 0.9;
+        }
+
+        .mit-cta {
+            display: inline-block;
+            background: #a31f34;
+            color: white;
+            padding: 15px 40px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .mit-cta:hover {
+            background: #8b1a2c;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(163, 31, 52, 0.4);
+        }
+
+        .mit-content {
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 0 20px;
+        }
+
+        .mit-section {
+            margin-bottom: 60px;
+        }
+
+        .mit-section h2 {
+            font-size: 32px;
+            color: #041d40;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .mit-section p {
+            font-size: 16px;
+            color: #545759;
+            margin-bottom: 15px;
+        }
+
+        .mit-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .mit-card {
+            background: #f5f5f5;
+            padding: 30px;
+            border-radius: 8px;
+            border-left: 4px solid #a31f34;
+        }
+
+        .mit-card h3 {
+            color: #041d40;
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        .mit-card p {
+            color: #545759;
+            font-size: 14px;
+        }
+
+        /* Chatbot Modal */
+        .chatbot-toggle {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: #a31f34;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(163, 31, 52, 0.4);
+            transition: all 0.3s;
+            z-index: 999;
+            border: none;
+            color: white;
+            font-size: 28px;
+        }
+
+        .chatbot-toggle:hover {
+            background: #8b1a2c;
+            transform: scale(1.1);
+            box-shadow: 0 6px 25px rgba(163, 31, 52, 0.5);
+        }
+
+        .chatbot-modal {
+            display: none;
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            width: 420px;
+            height: 650px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 50px rgba(0,0,0,0.2);
+            z-index: 1000;
+            flex-direction: column;
+            overflow: hidden;
+            animation: slideUp 0.3s ease;
+        }
+
+        .chatbot-modal.active {
+            display: flex;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .chatbot-header {
+            background: #041d40;
+            color: white;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 3px solid #a31f34;
+        }
+
+        .chatbot-header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .chatbot-logo {
+            width: 40px;
+            height: 40px;
+            background: #a31f34;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .chatbot-title h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .chatbot-title p {
+            font-size: 11px;
+            opacity: 0.8;
+        }
+
+        .chatbot-close {
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+
+        .chatbot-close:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .chatbot-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: #fafbfc;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .chatbot-messages::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .chatbot-messages::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .chatbot-messages::-webkit-scrollbar-thumb {
+            background: #d1d5db;
+            border-radius: 3px;
+        }
+
+        .chat-message {
+            max-width: 85%;
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-size: 14px;
+            line-height: 1.5;
+            animation: slideIn 0.3s ease;
+            word-wrap: break-word;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .bot-message {
+            background: white;
+            align-self: flex-start;
+            color: #1f2937;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            border: 1px solid #e5e7eb;
+        }
+
+        .user-message {
+            background: #041d40;
+            color: white;
+            align-self: flex-end;
+        }
+
+        .message-time {
+            font-size: 10px;
+            opacity: 0.6;
+            margin-top: 4px;
+            display: block;
+        }
+
+        .typing-indicator {
+            display: flex;
+            gap: 4px;
+            padding: 12px 16px;
+            background: white;
+            border-radius: 12px;
+            align-self: flex-start;
+            border: 1px solid #e5e7eb;
+        }
+
+        .typing-indicator span {
+            width: 6px;
+            height: 6px;
+            background: #9ca3af;
+            border-radius: 50%;
+            animation: bounce 1.4s infinite;
+        }
+
+        .typing-indicator span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-indicator span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes bounce {
+            0%, 60%, 100% {
+                transform: translateY(0);
+            }
+            30% {
+                transform: translateY(-6px);
+            }
+        }
+
+        .quick-replies {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 8px;
+        }
+
+        .quick-reply-btn {
+            background: white;
+            border: 1.5px solid #041d40;
+            color: #041d40;
+            padding: 6px 12px;
+            border-radius: 16px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .quick-reply-btn:hover {
+            background: #041d40;
+            color: white;
+        }
+
+        .chatbot-input-container {
+            padding: 16px;
+            background: white;
+            border-top: 1px solid #e5e7eb;
+            display: flex;
+            gap: 10px;
+        }
+
+        .chatbot-input {
+            flex: 1;
+            padding: 10px 14px;
+            border: 1.5px solid #e5e7eb;
+            border-radius: 20px;
+            outline: none;
+            font-size: 14px;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .chatbot-input:focus {
+            border-color: #041d40;
+            box-shadow: 0 0 0 3px rgba(4, 29, 64, 0.1);
+        }
+
+        .send-button {
+            background: #a31f34;
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .send-button:hover {
+            background: #8b1a2c;
+            transform: scale(1.05);
+        }
+
+        .send-button:active {
+            transform: scale(0.95);
+        }
+
+        @media (max-width: 768px) {
+            .mit-menu {
+                display: none;
+            }
+
+            .mit-hero h1 {
+                font-size: 32px;
+            }
+
+            .mit-hero p {
+                font-size: 16px;
+            }
+
+            .chatbot-modal {
+                width: calc(100% - 40px);
+                right: 20px;
+                bottom: 90px;
+                height: calc(100vh - 120px);
+            }
+
+            .chatbot-toggle {
+                right: 20px;
+                bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- MIT Sloan Website Clone -->
+<header class="mit-header">
+    <div class="mit-container">
+        <nav class="mit-nav">
+            <div class="mit-logo">MIT <span>SLOAN</span></div>
+            <ul class="mit-menu">
+                <li><a href="#">Programs</a></li>
+                <li><a href="#">Faculty</a></li>
+                <li><a href="#">Research</a></li>
+                <li><a href="#">Community</a></li>
+                <li><a href="#">About</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<section class="mit-hero">
+    <div class="mit-container">
+        <h1>Microsoft Azure Certification Program</h1>
+        <p>Master cloud computing with MIT Sloan Executive Education. Industry-leading curriculum designed for professionals.</p>
+        <a href="#" class="mit-cta">Explore Programs</a>
+    </div>
+</section>
+
+<main class="mit-content">
+    <section class="mit-section">
+        <h2>Why Choose MIT Sloan?</h2>
+        <p>Our Azure certification program combines cutting-edge technology education with MIT's renowned analytical approach. Learn from industry experts and gain practical skills that employers demand.</p>
+        
+        <div class="mit-cards">
+            <div class="mit-card">
+                <h3>Industry-Recognized Certification</h3>
+                <p>Earn Microsoft Azure certifications (AZ-900, AZ-104, AZ-204) with our comprehensive preparation program.</p>
+            </div>
+            <div class="mit-card">
+                <h3>Hands-On Learning</h3>
+                <p>Access real Azure environments and complete 50+ practical labs designed by cloud architects.</p>
+            </div>
+            <div class="mit-card">
+                <h3>Expert Faculty</h3>
+                <p>Learn from Microsoft MVPs and certified Azure architects with 15+ years of industry experience.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="mit-section">
+        <h2>Program Highlights</h2>
+        <p>Our 12-week intensive program covers everything from cloud fundamentals to advanced architecture patterns. Whether you're starting your cloud journey or advancing your career, we have a track for you.</p>
+        <p><strong>Next cohort starts:</strong> January 15, 2025</p>
+        <p><strong>Format:</strong> Online & In-person options available</p>
+    </section>
+</main>
+
+<!-- Chatbot Toggle Button -->
+<button class="chatbot-toggle" onclick="toggleChatbot()" id="chatToggle">💬</button>
+
+<!-- Chatbot Modal -->
+<div class="chatbot-modal" id="chatModal">
+    <div class="chatbot-header">
+        <div class="chatbot-header-left">
+            <div class="chatbot-logo">AZ</div>
+            <div class="chatbot-title">
+                <h3>Azure Course Assistant</h3>
+                <p>MIT Sloan • Online</p>
+            </div>
+        </div>
+        <button class="chatbot-close" onclick="toggleChatbot()">×</button>
+    </div>
+
+    <div class="chatbot-messages" id="chatMessages">
+        <div class="chat-message bot-message">
+            <strong>¡Bienvenido!</strong> 👋<br><br>
+            Soy tu asistente del curso de Azure en MIT Sloan. Puedo ayudarte con:<br><br>
+            • Información del programa<br>
+            • Certificaciones disponibles<br>
+            • Recursos de estudio<br>
+            • Precios y admisión<br><br>
+            ¿En qué puedo ayudarte?
+            <span class="message-time" id="initTime"></span>
+        </div>
+        
+        <div class="quick-replies">
+            <button class="quick-reply-btn" onclick="quickReply('Información del curso')">📋 Info del curso</button>
+            <button class="quick-reply-btn" onclick="quickReply('Certificaciones Azure')">🏆 Certificaciones</button>
+            <button class="quick-reply-btn" onclick="quickReply('Precios y planes')">💰 Precios</button>
+            <button class="quick-reply-btn" onclick="quickReply('Recursos de estudio')">📚 Recursos</button>
+        </div>
+    </div>
+
+    <div class="chatbot-input-container">
+        <input type="text" class="chatbot-input" id="userInput" placeholder="Escribe tu pregunta..." autocomplete="off">
+        <button class="send-button" onclick="sendMessage()">➤</button>
+    </div>
+</div>
+
+<script>
+    // Mostrar hora inicial
+    document.getElementById('initTime').textContent = getCurrentTime();
+
+    // Toggle chatbot modal
+    function toggleChatbot() {
+        const modal = document.getElementById('chatModal');
+        modal.classList.toggle('active');
+        
+        if (modal.classList.contains('active')) {
+            document.getElementById('userInput').focus();
+        }
+    }
+
+    // Base de conocimientos del curso Azure
+    const azureKnowledge = {
+        informacion_curso: {
+            patterns: ['información del curso', 'informacion del curso', 'sobre el curso', 'del curso', 'curso', 'programa'],
+            response: `📚 <strong>Curso de Microsoft Azure - MIT Sloan</strong><br><br>
+            <strong>Duración:</strong> 12 semanas<br>
+            <strong>Modalidad:</strong> Online / Presencial<br>
+            <strong>Nivel:</strong> Principiante a Avanzado<br><br>
+            <strong>Temario:</strong><br>
+            • Fundamentos de Cloud Computing<br>
+            • Servicios de computación (VMs, App Services)<br>
+            • Almacenamiento y bases de datos<br>
+            • Redes virtuales y seguridad<br>
+            • Identity & Access Management<br>
+            • Monitorización y optimización<br><br>
+            ¿Te gustaría saber más sobre algún tema específico?`
+        },
+        certificaciones: {
+            patterns: ['certificaciones', 'certificaciones azure', 'exámenes', 'az-900', 'az-104', 'az-204', 'certificación'],
+            response: `🏆 <strong>Certificaciones Microsoft Azure:</strong><br><br>
+            <strong>Fundamentals:</strong><br>
+            • AZ-900: Azure Fundamentals<br><br>
+            <strong>Associate:</strong><br>
+            • AZ-104: Azure Administrator<br>
+            • AZ-204: Azure Developer<br>
+            • AZ-305: Azure Solutions Architect<br><br>
+            <em>Recomendamos comenzar con AZ-900 si eres nuevo en Azure.</em><br><br>
+            ¿Cuál te interesa más?`
+        },
+        recursos: {
+            patterns: ['recursos', 'recursos de estudio', 'material', 'bibliografía', 'estudio', 'documentación'],
+            response: `📚 <strong>Recursos de Estudio:</strong><br><br>
+            <strong>Plataforma MIT Sloan:</strong><br>
+            • Videos interactivos<br>
+            • Laboratorios prácticos en Azure<br>
+            • Quizzes y exámenes de práctica<br><br>
+            <strong>Microsoft Learn:</strong><br>
+            • Rutas de aprendizaje gratuitas<br>
+            • Sandbox gratuito<br><br>
+            <strong>Documentación oficial:</strong><br>
+            • Microsoft Docs<br>
+            • Azure Architecture Center<br><br>
+            ¿Necesitas ayuda con algún recurso específico?`
+        },
+        precios: {
+            patterns: ['precios', 'precio', 'costo', 'inversión', 'pago', 'plan', 'planes'],
+            response: `💰 <strong>Inversión del Programa:</strong><br><br>
+            <strong>Curso Completo (12 semanas):</strong><br>
+            • $2,500 USD - Estudiantes<br>
+            • $3,200 USD - Profesionales<br><br>
+            <strong>Incluye:</strong><br>
+            ✓ Acceso a plataforma MIT Sloan<br>
+            ✓ 40+ horas de contenido<br>
+            ✓ Laboratorios prácticos<br>
+            ✓ Certificado de completion<br>
+            ✓ Mentoría 1:1<br>
+            ✓ Voucher examen AZ-900<br><br>
+            <strong>Opciones de pago:</strong><br>
+            • Pago único (5% descuento)<br>
+            • 3 cuotas sin interés<br><br>
+            ¿Te gustaría agendar una sesión informativa?`
+        },
+        azure_basico: {
+            patterns: ['qué es azure', 'que es azure', 'definición azure', 'azure', 'cloud computing'],
+            response: `☁️ <strong>Microsoft Azure</strong> es la plataforma de cloud computing de Microsoft.<br><br>
+            <strong>Servicios principales:</strong><br>
+            • <strong>Compute:</strong> Máquinas virtuales, App Services<br>
+            • <strong>Storage:</strong> Blob, Files, Disks<br>
+            • <strong>Database:</strong> SQL, Cosmos DB, MySQL<br>
+            • <strong>Networking:</strong> Virtual Networks, Load Balancers<br>
+            • <strong>AI/ML:</strong> Cognitive Services, Machine Learning<br><br>
+            <strong>Ventajas:</strong><br>
+            ✓ Escalabilidad automática<br>
+            ✓ Pago por uso<br>
+            ✓ Seguridad empresarial<br>
+            ✓ Integración con Microsoft 365<br><br>
+            ¿Quieres profundizar en algún servicio?`
+        },
+        saludo: {
+            patterns: ['hola', 'buenos días', 'buenas tardes', 'hey', 'hi', 'saludos'],
+            response: `¡Hola! 👋 Bienvenido al Azure Course Assistant.<br><br>
+            Estoy aquí para resolver todas tus dudas sobre el programa de Azure de MIT Sloan.<br><br>
+            ¿Qué te gustaría saber?`
+        },
+        gracias: {
+            patterns: ['gracias', 'thank you', 'agradezco', 'thanks'],
+            response: `¡De nada! 😊<br><br>
+            Estoy aquí para ayudarte cuando lo necesites.<br><br>
+            ¿Hay algo más en lo que pueda asistirte?`
+        },
+        adios: {
+            patterns: ['adiós', 'adios', 'chao', 'hasta luego', 'bye', 'nos vemos'],
+            response: `¡Hasta pronto! 👋<br><br>
+            Gracias por tu interés en el Azure Course de MIT Sloan.<br><br>
+            <strong>Contacto:</strong><br>
+            📧 azure@mitsloan.edu<br>
+            📞 +1 (617) 253-7100<br><br>
+            ¡Esperamos verte en clase! 🎓`
+        }
+    };
+
+    function getCurrentTime() {
+        const now = new Date();
+        return now.toLocaleTimeString('es-ES', { 
+            hour: '2-digit', 
+            minute: '2-digit' 
+        });
+    }
+
+    function addMessage(text, type) {
+        const container = document.getElementById('chatMessages');
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `chat-message ${type}-message`;
+        messageDiv.innerHTML = `${text}<span class="message-time">${getCurrentTime()}</span>`;
+        container.appendChild(messageDiv);
+        container.scrollTop = container.scrollHeight;
+    }
+
+    function showTyping() {
+        const container = document.getElementById('chatMessages');
+        const typingDiv = document.createElement('div');
+        typingDiv.className = 'typing-indicator';
+        typingDiv.id = 'typingIndicator';
+        typingDiv.innerHTML = '<span></span><span></span><span></span>';
+        container.appendChild(typingDiv);
+        container.scrollTop = container.scrollHeight;
+    }
+
+    function removeTyping() {
+        const typing = document.getElementById('typingIndicator');
+        if (typing) typing.remove();
+    }
+
+    function getAzureResponse(userText) {
+        const text = userText.toLowerCase().trim();
+        
+        for (const key in azureKnowledge) {
+            if (azureKnowledge[key].patterns.some(pattern => text.includes(pattern))) {
+                return azureKnowledge[key].response;
+            }
+        }
+        
+        const fallbackResponses = [
+            `Interesante pregunta 🤔<br><br>
+            Para darte una respuesta más precisa, te sugiero:<br>
+            • Consultar la documentación oficial<br>
+            • Preguntar en los foros del curso<br>
+            • Agendar una sesión con el instructor<br><br>
+            ¿Hay algo más específico sobre el curso que quieras saber?`,
+            
+            `No estoy seguro de entender completamente tu pregunta.<br><br>
+            ¿Podrías reformularla? También puedo ayudarte con:<br>
+            • Información del curso<br>
+            • Certificaciones Azure<br>
+            • Recursos de estudio<br>
+            • Precios y planes<br><br>
+            ¿Qué te gustaría conocer?`,
+            
+            `Ese es un buen punto 💡<br><br>
+            Te recomiendo escribir "ayuda" o "información del curso" para ver todo lo que puedo ayudarte.<br><br>
+            También puedes contactarnos directamente:<br>
+            📧 azure@mitsloan.edu<br>
+            📞 +1 (617) 253-7100`
+        ];
+        
+        return fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)];
+    }
+
+    function sendMessage() {
+        const input = document.getElementById('userInput');
+        const text = input.value.trim();
+        
+        if (!text) return;
+        
+        addMessage(text, 'user');
+        input.value = '';
+        
+        showTyping();
+        
+        setTimeout(() => {
+            removeTyping();
+            const response = getAzureResponse(text);
+            addMessage(response, 'bot');
+        }, 1000 + Math.random() * 1000);
+    }
+
+    function quickReply(text) {
+        document.getElementById('userInput').value = text;
+        sendMessage();
+    }
+
+    document.getElementById('userInput').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            sendMessage();
+        }
+    });
+</script>
+
+</body>
+</html>
